@@ -27,10 +27,21 @@ const UserForm = ({ errors, touched, status }) => {
             {touched.terms && errors.terms && <p className="error">{errors.terms}</p>}
             <Field type="checkbox" name="terms"></Field>
 
+            {touched.role && errors.role && <p className="error">{errors.role}</p>}
+            <Field component="select" name="role">
+                <option value="" disabled>Select a Role</option>
+                <option value="Front End">Front End</option>
+                <option value="Back End">Back End</option>
+                <option value="UI/UX">UI/UX</option>
+            </Field>
+
             <button type="submit">Submit</button>
 
             {data.map((data) => (
-                <div>User: {data.user}</div>
+                <div>
+                    <p>User: {data.user}</p>
+                    <p>Role: {data.role}</p> 
+                </div>
             ))}
             
         </Form>
@@ -42,6 +53,7 @@ export default withFormik({
         return {
             user: values.user || '',
             email: values.email || '',
+            role: values.roles || '',
             password: values.password || '',
             terms: values.terms || false
         }
@@ -50,6 +62,7 @@ export default withFormik({
         user: yup.string().required('Name is required!'),
         email: yup.string().required('Email is required!'),
         password: yup.string().required('Password is required!'),
+        role: yup.string().required('Please select a role!'),
         terms: yup.boolean().oneOf([true], 'Must agree to terms of service')
     }),
 
